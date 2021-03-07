@@ -15,7 +15,7 @@ gulp.task('server', function () {
         }
     });
 
-    gulp.watch("").on('change', browserSync.reload);
+    gulp.watch("./").on('change', browserSync.reload);
 });
 
 // gulp.task('pug', function buildHTML() {
@@ -26,7 +26,7 @@ gulp.task('server', function () {
 // });
 
 gulp.task('styles', function () {
-    return gulp.src("css/style.less")
+    return gulp.src("css/**/*.+less")
         .pipe(less({ outputStyle: 'compressed' }))
         .pipe(rename({ suffix: '.min', prefix: '' }))
         .pipe(autoprefixer())
@@ -36,7 +36,7 @@ gulp.task('styles', function () {
 });
 
 gulp.task('watch', function () {
-    gulp.watch("(css/scss|sass)", gulp.parallel('styles'));
+    gulp.watch("css/**/*.+less", gulp.parallel('styles'));
     // gulp.watch("src/*.pug", gulp.parallel('pug'));
 })
 
