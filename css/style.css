@@ -114,6 +114,7 @@ header ul li:before {
   background-size: cover;
 }
 .main-block {
+  position: relative;
   width: 750px;
   min-height: 300px;
   border: 6px solid #c78030;
@@ -123,6 +124,7 @@ header ul li:before {
   margin-top: 180px;
   text-align: center;
 }
+
 .main-block-link {
   color: #fff;
   font-size: 22px;
