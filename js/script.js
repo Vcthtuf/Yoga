@@ -2,8 +2,6 @@
 
 window.addEventListener('DOMContentLoaded', function () {
 
-
-
     // Tabs 
 
     let info = document.querySelector('.info-header'),
@@ -69,11 +67,9 @@ window.addEventListener('DOMContentLoaded', function () {
             days = timer.querySelector('.days'),
             hours = timer.querySelector('.hours'),
             minutes = timer.querySelector('.minutes'),
-            seconds = timer.querySelector('.seconds'),
+            seconds = timer.querySelector('.seconds');
 
-            timeInterval = setInterval(updateClock, 1000);
-
-        function updateClock() {
+        let updateClock = () => {
             let t = getTimeRemaining(endtime);
             monthes.textContent = t.monthes;
             days.textContent = t.days;
@@ -84,7 +80,11 @@ window.addEventListener('DOMContentLoaded', function () {
             if (t.total < 0) {
                 clearInterval(timeInterval);
             }
-        }
+        };
+
+        let timeInterval = setInterval(updateClock, 1000);
+
+
 
     }
     setClock('timer', deadline);
@@ -111,64 +111,5 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // ------------------------------------------------
 
-
 });
 
-
-class User {
-    constructor(name, id) {
-        this.name = name;
-        this.id = id;
-        this.homan = true;
-        this.isAdmin = true;
-    }
-    hello() {
-        console.log('Hello, I\'m ' + this.name);
-    }
-
-}
-
-let Alex = new User('Alex', 34),
-    Sergey = new User('Sergey', 21);
-
-User.prototype.exit = function () {
-    console.log('Пользователь ' + this.name + ' ушел');
-}
-User.prototype.hungry = true;
-
-// function showThis(a, b) {
-//     console.log(this);
-//     function sum() {
-//         console.log(this);
-//         return a + b;
-//     }
-//     console.log(sum());
-// }
-
-// showThis(8, 6);
-
-// let obj = {
-//     a: 10,
-//     b: 34,
-//     sum: function () {
-//         // return this.a + this.b;
-//         console.log(this);
-//         console.log(this.a + this.b);
-//     }
-// }
-
-// obj.sum();
-// // Alex.hello();
-// // Sergey.exit();
-
-let user = {
-    name: 'John',
-
-};
-
-function sayName() {
-    console.log(this);
-    console.log(this.name);
-};
-sayName.call(user);
-sayName.apply(user);
