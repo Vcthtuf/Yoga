@@ -131,7 +131,7 @@ window.addEventListener('DOMContentLoaded', function () {
         request.open('POST', 'server.php');
         request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         let formData = new FormData(form);
-        request.send(FormData);
+        request.send(formData);
 
         request.addEventListener('readystatechange', function () {
             if (request.readyState < 4) {
