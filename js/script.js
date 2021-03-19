@@ -111,11 +111,11 @@ window.addEventListener('DOMContentLoaded', function () {
 
     // ------------------------------------------------
 
-    // form 
+    // form modal window
 
     let message = {
         loading: 'Загрузка...',
-        success: 'Спасибо! Мы с Вами скоро свяжемся',
+        success: 'Спасибо! Мы с Вами скоро свяжемся!!!',
         failure: 'Что-то пошло не так'
     }
 
@@ -129,9 +129,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
         let request = new XMLHttpRequest();
         request.open('POST', 'server.php');
-        request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
         let formData = new FormData(form);
-        request.send(formData);
+
+
+        let obj = {};
+
+        formData.forEach(function (value, key) {
+            obj[key] = value;
+        });
+
+        let json = JSON.stringify(obj);
+
+
+        request.send(json);
 
         request.addEventListener('readystatechange', function () {
             if (request.readyState < 4) {
@@ -143,9 +154,61 @@ window.addEventListener('DOMContentLoaded', function () {
             }
         });
 
+        // clear inputs after submit
+
+        for (let i = 0; i < input.length; i++) {
+            input[i].value = '';
+        }
+
     });
 
+    // contact form 
 
+    let contactForm = document.getElementById('form'),
+        contactInput = contactForm.getElementsByTagName('input'),
+        contactSubmitBtn = contactForm.querySelector('button');
+
+    contactForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        contactForm.appendChild(statusMessage);
+
+        let request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+        let contactData = new FormData(contactForm);
+
+        let contacts = {};
+
+        contactData.forEach(function (value, key) {
+            contacts[key] = value;
+        });
+
+        let contactsJson = JSON.stringify(contacts);
+        console.log(contacts);
+
+
+        request.send(contactsJson);
+
+        request.addEventListener('readystatechange', function () {
+            if (request.readyState < 4) {
+                statusMessage.innerHTML = message.loading;
+            } else if (request.readyState === 4 && request.status === 200) {
+                statusMessage.innerHTML = message.success;
+            } else {
+                statusMessage.innerHTML = message.failure;
+            }
+        });
+
+        // clear inputs after submit
+
+        for (let i = 0; i < contactInput.length; i++) {
+            contactInput[i].value = '';
+        }
+
+
+
+
+    });
 
 });
 
