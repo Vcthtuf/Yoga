@@ -172,43 +172,58 @@ window.addEventListener('DOMContentLoaded', function () {
         event.preventDefault();
         contactForm.appendChild(statusMessage);
 
-        let request = new XMLHttpRequest();
-        request.open('POST', 'server.php');
-        request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
-        let contactData = new FormData(contactForm);
+        function postData(data) {
 
-        let contacts = {};
+            return new Promise(function (resolve, reject) {
 
-        contactData.forEach(function (value, key) {
-            contacts[key] = value;
-        });
+                let request = new XMLHttpRequest();
 
-        let contactsJson = JSON.stringify(contacts);
-        console.log(contacts);
+                request.open('POST', 'server.php');
+                request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
 
+                let contactData = new FormData(contactForm);
 
-        request.send(contactsJson);
+                let contacts = {};
 
-        request.addEventListener('readystatechange', function () {
-            if (request.readyState < 4) {
-                statusMessage.innerHTML = message.loading;
-            } else if (request.readyState === 4 && request.status === 200) {
-                statusMessage.innerHTML = message.success;
-            } else {
-                statusMessage.innerHTML = message.failure;
-            }
-        });
+                contactData.forEach(function (value, key) {
+                    contacts[key] = value;
+                });
+
+                let contactsJson = JSON.stringify(contacts);
+                console.log(contacts);
+
+                request.addEventListener('readystatechange', function () {
+                    if (request.readyState < 4) {
+                        resolve()
+                    } else if (request.readyState === 4 && request.status === 200) {
+                        resolve()
+                    } else {
+                        reject()
+                    }
+                });
+
+                request.send(contactsJson);
+            });
+
+        } // end postData
 
         // clear inputs after submit
-
-        for (let i = 0; i < contactInput.length; i++) {
-            contactInput[i].value = '';
+        function clearInput() {
+            for (let i = 0; i < contactInput.length; i++) {
+                contactInput[i].value = '';
+            }
         }
 
-
-
+        postData(contactData)
+            .then(() => statusMessage.innerHTML = message.loading)
+            .then(() => {
+                statusMessage.innerHTML = message.success;
+            })
+            .catch(() => statusMessage.innerHTML = message.failure)
+            .then(clearInput)
 
     });
+
 
 });
 
